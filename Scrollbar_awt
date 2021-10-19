@@ -1,0 +1,76 @@
+import java.awt.*;
+import java.awt.event.*;
+
+class MyScrollbar extends Frame implements AdjustmentListener
+{
+	Scrollbar sb, sb1, s;
+	int horizontal=0, vertical=0, type;
+
+
+ 	public MyScrollbar()
+ 	{
+
+		setVisible(true);
+		setSize(400,400);
+		setTitle("ScrollBar Demo");
+		setLayout(new BorderLayout());
+		setBackground(Color.cyan);
+		setForeground(Color.red);
+    	
+    	sb= new Scrollbar(Scrollbar.VERTICAL);
+    	sb1= new Scrollbar(Scrollbar.HORIZONTAL);
+		
+		add(BorderLayout.EAST,sb);
+		add(BorderLayout.SOUTH,sb1);
+		
+		System.out.println("Scroll.VERTICAL " + Scrollbar.VERTICAL);
+		System.out.println("Scroll.HORIZONTAL " + Scrollbar.HORIZONTAL);
+		
+
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent we)
+			{
+				System.exit(0);
+			}
+		});
+
+		sb.addAdjustmentListener(this);
+		sb1.addAdjustmentListener(this);
+}	
+
+
+	   public void adjustmentValueChanged(AdjustmentEvent ae)
+   		{
+   	 			
+            s = (Scrollbar)ae.getAdjustable();
+            if(s==sb)
+                vertical = ae.getValue();
+            else 
+            	horizontal = ae.getValue();
+            
+            //GET THE TYPE OF SCROLLBAR MOVEMENT
+            type = ae.getAdjustmentType();
+
+   	 		repaint();
+   		}
+
+   		public void paint(Graphics g)
+   		{
+   			Font f = new Font("Calibri", Font.BOLD, 25);
+   			g.setFont(f);
+   			
+   			g.drawString("Position changed : " + vertical, 100,150);
+            g.drawString("Position changed : " + horizontal, 100,200);		
+            g.drawString("Adjustment Type : " + type, 100,250);		
+          
+   		}
+	 
+}
+
+public class ScrollBarDemo
+{
+	public static void main(String[] args) {
+		MyScrollbar msb = new MyScrollbar();
+	}
+}
